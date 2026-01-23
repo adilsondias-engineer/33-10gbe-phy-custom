@@ -1,0 +1,16 @@
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:183:9:@0ms:(report note): === Scrambler/Descrambler Test ===
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:193:9:@76800ps:(report note): Test 1: LFSR warmup
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:202:9:@99200ps:(report note): Test 2: Fixed patterns
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:225:9:@131200ps:(report note): Test 3: Sequential values
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:234:9:@336ns:(report note): Test 4: Byte patterns
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:243:9:@387200ps:(report note): Test 5: Stress test
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:255:9:@1091200ps:(report note): === Test Complete ===
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:256:9:@1091200ps:(report note): Total: 148
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:257:9:@1091200ps:(report note): Passed: 148
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:258:9:@1091200ps:(report note): Errors: 0
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:259:9:@1091200ps:(report note): Scrambler active: '1'
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:262:13:@1091200ps:(report note): *** ALL TESTS PASSED ***
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_scrambler.vhd:273:9:@1123200ps:(assertion failure): Simulation complete
+ghdl:error: assertion failed
+  instance: /tb_scrambler/P5
+ghdl:error: simulation failed

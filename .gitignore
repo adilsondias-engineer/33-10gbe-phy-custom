@@ -1,0 +1,33 @@
+# Vivado generated files
+*.jou
+*.log
+*.str
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.tmp/
+*.cf
+# Compiled IP (keep .xci configuration, exclude compiled output)
+*.dcp
+# Simulation files
+*.wdb
+*.vcd
+*.ghw
+*.pb
+
+# Encrypted/proprietary IP (should not be committed)
+*.vp
+*.vhp
+*.ngc
+
+# Python
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
+*~

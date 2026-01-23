@@ -1,0 +1,19 @@
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:398:9:@0ms:(report note): === Starting PCS Loopback Test ===
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:287:21:@92800ps:(report note): Warmup block 1 (skipped)
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:410:9:@96ns:(report note): Phase 1: Idle frames (scrambler warmup)
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:287:21:@99200ps:(report note): Warmup block 2 (skipped)
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:419:9:@156800ps:(report note): Phase 2: Pure data frames
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:438:9:@323200ps:(report note): Phase 3: Start of frame
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:461:9:@393600ps:(report note): Phase 4: Terminate at all lane positions
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:475:9:@649600ps:(report note): Phase 5: Back-to-back frames
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:489:9:@809600ps:(report note): Phase 6: Random stress test (100 frames)
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:508:9:@6249600ps:(report note): Draining pipeline...
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:515:9:@6448ns:(report note): === Test Complete ===
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:516:9:@6448ns:(report note): Total tests: 983
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:517:9:@6448ns:(report note): Passed: 991
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:518:9:@6448ns:(report note): Errors: 0
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:521:13:@6448ns:(report note): *** ALL TESTS PASSED ***
+/work/projects/fpga-trading-systems/33-10gbe-phy-custom/test/tb_pcs_loopback.vhd:528:9:@6512ns:(assertion failure): Simulation complete
+ghdl:error: assertion failed
+  instance: /tb_pcs_loopback/P6
+ghdl:error: simulation failed
