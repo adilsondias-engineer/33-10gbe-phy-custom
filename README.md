@@ -1,5 +1,16 @@
 # Project 33: Custom 10GBASE-R PHY (VHDL)
 
+## Part of FPGA Trading Systems Portfolio
+
+This project is part of a complete end-to-end trading system:
+- **Main Repository:** [fpga-trading-systems](https://github.com/adilsondias-engineer/fpga-trading-systems)
+- **Project Number:** 33 of 35(for now, more to come)
+- **Category:** FPGA Core 
+- **Dependencies:** None - Project foundation new projects
+
+---
+
+
 **Platform:** Xilinx Kintex-7 (XC7K325T on ALINX AX7325B)
 **Technology:** Pure VHDL, no vendor IP cores (except GTX primitives)
 **Status:** Development  - Phy working reliably achieving 10Gbps Full Duplex
