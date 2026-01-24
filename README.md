@@ -196,7 +196,7 @@ Self-synchronizing: RX descrambler automatically locks within 58 bits.
 ## Building
 
 ### Prerequisites
-- Vivado 2024.1+ (for Artix-7 GTX support)
+- Vivado 2025.1+ (for Kintex-7 GTX support)
 - Target board with SFP+ cage and GTX transceiver access
 
 ### Synthesis
