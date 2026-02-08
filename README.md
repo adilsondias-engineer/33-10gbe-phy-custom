@@ -320,7 +320,24 @@ Most developers will not have 10GbE networking at home (2.5GbE is common at best
 - Xilinx UG482: 7 Series FPGAs GTP Transceivers User Guide
 
 ---
+## Scaling Path: 40GBASE-R4 Design
 
+Complete architectural design for 40 Gigabit Ethernet extension:
+- **Reuses:** 90%+ of validated 10G components (encoder, decoder, scrambler, block sync)
+- **Adds:** Multi-Lane Distribution (MLD) layer for 4-lane bonding
+- **Performance:** 40 Gbps throughput, ~350ns latency
+- **Resources:** ~20K LUTs (10% Kintex-7 utilization)
+- **Status:** Design complete, implementation blocked by test equipment cost
+- **Documentation:** [40GBASE-R4-DESIGN.md](docs/40GBASE-R4-DESIGN.md)
+
+**Implementation Estimate:** 4-6 weeks with test equipment access
+
+This demonstrates understanding of:
+- IEEE 802.3ba multi-lane protocols
+- Architectural scaling (1 lane → 4 lanes → 16 lanes)
+- Component reuse and modular design
+- Production-grade planning and estimation
+  
 ## Related Projects
 
 - **[31-10gbe-uart-debug](../31-10gbe-uart-debug/)** - 10GbE with Xilinx IP (reference)
