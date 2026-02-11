@@ -1,6 +1,13 @@
 # ==============================================================================
 # Timing Constraints for 10GBASE-R Custom PHY
 # Target: ALINX AX7325B (Kintex-7 XC7K325T-2FFG900)
+#
+# Clock Domains:
+#   sys_clk      - 200 MHz board oscillator (defined in test_pins.xdc)
+#   refclk       - 156.25 MHz SFP+ reference (QPLL input only)
+#   gtx_txoutclk - 322.27 MHz GTX parallel clock (MMCM input)
+#     -> tx_usrclk  = 322.27 MHz (MMCM CLKOUT0, GTX TXUSRCLK)
+#     -> tx_usrclk2 = 161.13 MHz (MMCM CLKOUT1, GTX TXUSRCLK2)
 # ==============================================================================
 
 # ==============================================================================
@@ -11,30 +18,27 @@
 create_clock -period 6.400 -name refclk [get_ports refclk_p]
 
 # ==============================================================================
-# GTX / MMCM Generated Clocks
+# GTX TXOUTCLK
 # ==============================================================================
 
-# TXOUTCLK (322.27 MHz) is auto-derived by Vivado from the GT primitive.
-# The MMCM outputs (tx_usrclk @ 322.27 MHz, tx_usrclk2 @ 161.13 MHz) are
-# auto-propagated by Vivado through the MMCME2_BASE. No manual create_clock
-# needed for these — Vivado derives them from the refclk -> QPLL -> TXOUTCLK chain.
+# GTX TXOUTCLK: 322.27 MHz (10.3125 Gbps / 32)
+# Must be explicitly constrained because GTXE2_CHANNEL is manually instantiated
+# (not wizard-generated). Vivado cannot trace through the analog QPLL.
+# MMCM output clocks (tx_usrclk, tx_usrclk2) are auto-derived from this.
+create_clock -period 3.103 -name gtx_txoutclk [get_pins gtx_inst/gtxe2_channel_inst/TXOUTCLK]
 
 # ==============================================================================
 # Clock Domain Crossings
 # ==============================================================================
 
-# System clock (200 MHz, defined in test_pins.xdc) is asynchronous to GT clocks
-set_clock_groups -asynchronous -quiet \
-    -group [get_clocks -of_objects [get_pins -quiet gtx_inst/tx_usrclk_bufg/O]] \
-    -group [get_clocks -of_objects [get_pins -quiet gtx_inst/tx_usrclk2_bufg/O]] \
-    -group [get_clocks sys_clk]
-
-# Reference clock to MMCM-generated clocks
-# (refclk feeds QPLL which feeds TXOUTCLK which feeds MMCM - related but
-#  treated as async for CDC paths through reset synchronizers)
-set_clock_groups -asynchronous -quiet \
-    -group [get_clocks refclk] \
-    -group [get_clocks -of_objects [get_pins -quiet gtx_inst/tx_usrclk2_bufg/O]]
+# All three clock domains are asynchronous to each other:
+#   - sys_clk: board oscillator (200 MHz, defined in test_pins.xdc)
+#   - refclk: SFP+ reference (156.25 MHz, QPLL input only)
+#   - gtx_txoutclk + MMCM-derived clocks (tx_usrclk 322 MHz, tx_usrclk2 161 MHz)
+set_clock_groups -asynchronous \
+    -group [get_clocks -include_generated_clocks sys_clk] \
+    -group [get_clocks -include_generated_clocks refclk] \
+    -group [get_clocks -include_generated_clocks gtx_txoutclk]
 
 # ==============================================================================
 # False Paths
@@ -68,9 +72,3 @@ set_max_delay -from [get_cells -quiet scrambler_inst/lfsr_reg[*]] \
 set_max_delay -from [get_cells -quiet descrambler_inst/lfsr_reg[*]] \
               -to [get_cells -quiet descrambler_inst/lfsr_reg[*]] \
               6.0
-
-# ==============================================================================
-# MMCM Constraints
-# ==============================================================================
-
-# The MMCM LOC constraint is in phy_10gbase_r_test_pins.xdc (same clock region as GT)

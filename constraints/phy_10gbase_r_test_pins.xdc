@@ -25,14 +25,8 @@ set_property PACKAGE_PIN G8 [get_ports refclk_p]
 set_property PACKAGE_PIN G7 [get_ports refclk_n]
 #create_clock -period 6.400 -name refclk [get_ports refclk_p]
 
-################################################################################
-# Clock Domain Crossings
-################################################################################
-# Async clock groups between system clock and SFP reference clock
-# (Clock Wizard removed - using direct IBUFDS for sys_clk)
-set_clock_groups -name async_clk_groups -asynchronous \
-    -group [get_clocks sys_clk] \
-    -group [get_clocks refclk_p]
+# Note: Clock domain crossing constraints (sys_clk vs refclk vs gtx_txoutclk)
+# are defined in phy_10gbase_r_timing.xdc — not duplicated here
 
 # ==============================================================================
 # SFP+ GTX Transceiver (Serial Interface) - QUAD 117, Lane 0
