@@ -223,7 +223,7 @@ Build top: `phy_10gbase_r_test_top` (PHY + debug UART + test infrastructure)
 ## Building
 
 ### Prerequisites
-- Vivado 2025.2+ (for Artix-7 GTX support)
+- Vivado 2025.2+ - Vivado 2024.1+ (for Kintex-7 GTX support)
 - Target board with SFP+ cage and GTX transceiver access
 
 ### Synthesis
