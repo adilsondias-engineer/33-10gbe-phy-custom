@@ -74,7 +74,6 @@
  * GitHub: https://github.com/adilsondias-engineer/fpga-trading-systems
  * Date: January 2026
  */
-*/
 
 `resetall
 `timescale 1ns / 1ps

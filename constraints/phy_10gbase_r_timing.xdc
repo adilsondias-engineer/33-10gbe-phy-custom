@@ -39,7 +39,6 @@ set_clock_groups -asynchronous \
     -group [get_clocks -include_generated_clocks sys_clk] \
     -group [get_clocks -include_generated_clocks refclk] \
     -group [get_clocks -include_generated_clocks gtx_txoutclk]
-
 # ==============================================================================
 # False Paths
 # ==============================================================================
@@ -48,13 +47,13 @@ set_clock_groups -asynchronous \
 set_false_path -from [get_ports phy_reset]
 
 # Status outputs are slow/asynchronous
-set_false_path -to [get_ports phy_ready]
-set_false_path -to [get_ports qpll_lock]
-set_false_path -to [get_ports block_lock]
-set_false_path -to [get_ports rx_sync]
-set_false_path -to [get_ports tx_error]
-set_false_path -to [get_ports rx_error]
-set_false_path -to [get_ports debug_led[*]]
+#set_false_path -to [get_ports phy_ready]
+#set_false_path -to [get_ports qpll_lock]
+#set_false_path -to [get_ports block_lock]
+#set_false_path -to [get_ports rx_sync]
+#set_false_path -to [get_ports tx_error]
+#set_false_path -to [get_ports rx_error]
+#set_false_path -to [get_ports debug_led[*]]
 
 # SFP+ control signals are slow
 set_false_path -to [get_ports sfp_tx_disable]
@@ -64,11 +63,11 @@ set_false_path -to [get_ports sfp_tx_disable]
 # ==============================================================================
 
 # Scrambler LFSR feedback path - ensure single cycle at 161.13 MHz (6.206 ns)
-set_max_delay -from [get_cells -quiet scrambler_inst/lfsr_reg[*]] \
-              -to [get_cells -quiet scrambler_inst/lfsr_reg[*]] \
-              6.0
+#set_max_delay -from [get_cells -quiet scrambler_inst/lfsr_reg[*]] \
+#              -to [get_cells -quiet scrambler_inst/lfsr_reg[*]] \
+#              6.0
 
 # Descrambler LFSR feedback path
-set_max_delay -from [get_cells -quiet descrambler_inst/lfsr_reg[*]] \
-              -to [get_cells -quiet descrambler_inst/lfsr_reg[*]] \
-              6.0
+#set_max_delay -from [get_cells -quiet descrambler_inst/lfsr_reg[*]] \
+#              -to [get_cells -quiet descrambler_inst/lfsr_reg[*]] \
+#              6.0

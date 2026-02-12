@@ -5,7 +5,7 @@
 This project is part of a complete end-to-end trading system:
 - **Main Repository:** [fpga-trading-systems](https://github.com/adilsondias-engineer/fpga-trading-systems)
 - **Project Number:** 33 of 35(for now, more to come)
-- **Category:** FPGA Core 
+- **Category:** FPGA Core
 - **Dependencies:** None - Project foundation new projects
 
 ---
@@ -13,7 +13,7 @@ This project is part of a complete end-to-end trading system:
 
 **Platform:** Xilinx Kintex-7 (XC7K325T on ALINX AX7325B)
 **Technology:** Pure VHDL, no vendor IP cores (except GTX primitives)
-**Status:** Development  - Phy working reliably achieving 10Gbps Full Duplex
+**Status:** Hardware Tested - WNS +1.194ns, 0 critical warnings, PHY working reliably at 10Gbps Full Duplex
 
 ---
 
@@ -163,6 +163,30 @@ Self-synchronizing: RX descrambler automatically locks within 58 bits.
 
 ---
 
+## Resource Utilization (post-implementation, Feb 12 2026)
+
+Build top: `phy_10gbase_r_test_top` (PHY + debug UART + test infrastructure)
+
+| Resource | Used | Available | Util% |
+|----------|------|-----------|-------|
+| Slice LUTs | 704 | 203,800 | 0.35% |
+| LUT as Logic | 701 | 203,800 | 0.34% |
+| Slice Registers | 1,240 | 407,600 | 0.30% |
+| BRAM | 0 | 445 | 0.00% |
+| F7 Muxes | 43 | 101,900 | 0.04% |
+| GTX Transceivers | 1 | 16 | 6.25% |
+| BUFG | 5 | 32 | 15.63% |
+| MMCM | 1 | 10 | 10.00% |
+
+**Timing Summary:**
+- sys_clk (200 MHz): WNS +1.194ns, 0 failing paths
+- tx_mmcm_clk1 (161.13 MHz): WNS +2.669ns, 0 failing paths
+- 0 TIMING-17 critical warnings, 0 unconstrained registers
+
+**Note on sys_clk WNS (+1.194ns):** The critical path is in the debug UART module (`uart_debug_inst`), not in the PHY core. The PHY itself (PCS + GTX) runs entirely on `tx_mmcm_clk1` with +2.669ns margin. The test top layer (`phy_10gbase_r_test_top`) and debug reporter are required to test the PHY on hardware -- without them there is no way to verify link status, block lock, or packet counters. The PHY core alone (`phy_10gbase_r_top`) has no sys_clk logic and would show only the tx_clk WNS of +2.669ns.
+
+---
+
 ## File Structure
 
 ```
@@ -170,6 +194,7 @@ Self-synchronizing: RX descrambler automatically locks within 58 bits.
 ├── README.md
 ├── src/
 │   ├── phy_10gbase_r_top.vhd      # Top-level PHY
+│   ├── phy_10gbase_r_test_top.vhd  # Test wrapper (PHY + debug UART)
 │   ├── gtx/
 │   │   └── gtx_10g_wrapper.vhd    # GTX transceiver wrapper
 │   ├── pcs/
@@ -180,7 +205,9 @@ Self-synchronizing: RX descrambler automatically locks within 58 bits.
 │   ├── scrambler/
 │   │   ├── scrambler_tx.vhd       # TX scrambler
 │   │   └── descrambler_rx.vhd     # RX descrambler
-│   └── xgmii/                      # (Future) XGMII helpers
+│   └── debug/
+│       ├── gtx_debug_reporter.v   # UART debug output
+│       └── uart_tx_simple.v       # UART TX primitive
 ├── constraints/
 │   └── (pin assignments for target board)
 ├── test/
@@ -196,7 +223,7 @@ Self-synchronizing: RX descrambler automatically locks within 58 bits.
 ## Building
 
 ### Prerequisites
-- Vivado 2025.1+ (for Kintex-7 GTX support)
+- Vivado 2025.2+ (for Artix-7 GTX support)
 - Target board with SFP+ cage and GTX transceiver access
 
 ### Synthesis
@@ -320,24 +347,7 @@ Most developers will not have 10GbE networking at home (2.5GbE is common at best
 - Xilinx UG482: 7 Series FPGAs GTP Transceivers User Guide
 
 ---
-## Scaling Path: 40GBASE-R4 Design
 
-Complete architectural design for 40 Gigabit Ethernet extension:
-- **Reuses:** 90%+ of validated 10G components (encoder, decoder, scrambler, block sync)
-- **Adds:** Multi-Lane Distribution (MLD) layer for 4-lane bonding
-- **Performance:** 40 Gbps throughput, ~350ns latency
-- **Resources:** ~20K LUTs (10% Kintex-7 utilization)
-- **Status:** Design complete, implementation blocked by test equipment cost
-- **Documentation:** [40GBASE-R4-DESIGN.md](docs/40GBASE-R4-DESIGN.md)
-
-**Implementation Estimate:** 4-6 weeks with test equipment access
-
-This demonstrates understanding of:
-- IEEE 802.3ba multi-lane protocols
-- Architectural scaling (1 lane → 4 lanes → 16 lanes)
-- Component reuse and modular design
-- Production-grade planning and estimation
-  
 ## Related Projects
 
 - **[31-10gbe-uart-debug](../31-10gbe-uart-debug/)** - 10GbE with Xilinx IP (reference)
@@ -346,8 +356,8 @@ This demonstrates understanding of:
 
 ---
 
-**Status:** Development - Phy working reliably
 **Created:** January 2026
 **Author:** Adilson Dias
-
+**Last Updated:** February 12, 2026
+**Hardware Status:** Tested on AX7325B, WNS +1.194ns, 0 critical warnings
 **Target Board:** ALINX AX7325B (Kintex-7 XC7K325T-2FFG900I)
