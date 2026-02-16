@@ -180,6 +180,11 @@ architecture rtl of phy_10gbase_r_test_top is
     -- PCS reset signal for debug
     signal pcs_reset        : std_logic;
 
+    -- XGMII debug UART signals
+    signal xgmii_dump_tx      : std_logic;
+    signal xgmii_dump_active  : std_logic;
+    signal debug_uart_tx      : std_logic;
+
     -- IDLE pattern constants (IEEE 802.3 IDLE = 0x07)
     constant XGMII_IDLE_DATA : std_logic_vector(63 downto 0) := x"0707070707070707";
     constant XGMII_IDLE_CTRL : std_logic_vector(7 downto 0) := "11111111";
@@ -464,7 +469,37 @@ begin
             decoder_data_lo  => debug_decoder_data_lo,
             rx_startofseq    => debug_rx_startofseq,
             tx_gearbox_ready => debug_tx_gearbox_ready,
-            uart_tx          => uart_tx
+            uart_tx          => debug_uart_tx
         );
+
+    ----------------------------------------------------------------------------
+    -- XGMII Debug UART
+    -- Captures XGMII RX words in circular buffer. Triggers on consecutive
+    -- pure-data words with matching 32-bit groups (corruption pattern).
+    -- Dumps buffer via UART when triggered.
+    ----------------------------------------------------------------------------
+    xgmii_debug_inst : entity work.xgmii_debug_uart
+        generic map (
+            CLK_FREQ  => 161_130_000,
+            BAUD_RATE => 115200,
+            BUF_AW    => 11  -- 2048 entries
+        )
+        port map (
+            clk            => tx_clk,
+            rst            => pcs_reset,
+            xgmii_rxd      => xgmii_rxd,
+            xgmii_rxc      => xgmii_rxc,
+            xgmii_rx_valid => xgmii_rx_valid,
+            uart_tx        => xgmii_dump_tx,
+            dump_active    => xgmii_dump_active
+        );
+
+    ----------------------------------------------------------------------------
+    -- UART Output Mux
+    -- When corruption dump is active, route XGMII dump UART to pin.
+    -- Otherwise, route periodic debug reporter output.
+    -- Both idle high (UART idle = '1'), transition happens only once.
+    ----------------------------------------------------------------------------
+    uart_tx <= xgmii_dump_tx when xgmii_dump_active = '1' else debug_uart_tx;
 
 end rtl;

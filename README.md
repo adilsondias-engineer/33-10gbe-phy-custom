@@ -4,7 +4,7 @@
 
 This project is part of a complete end-to-end trading system:
 - **Main Repository:** [fpga-trading-systems](https://github.com/adilsondias-engineer/fpga-trading-systems)
-- **Project Number:** 33 of 35(for now, more to come)
+- **Project Number:** 33 of 38 (for now, more to come)
 - **Category:** FPGA Core
 - **Dependencies:** None - Project foundation new projects
 
@@ -223,7 +223,7 @@ Build top: `phy_10gbase_r_test_top` (PHY + debug UART + test infrastructure)
 ## Building
 
 ### Prerequisites
-- Vivado 2025.2+ - Vivado 2024.1+ (for Kintex-7 GTX support)
+- Vivado 2024.1+ (for Kintex-7 GTX support)
 - Target board with SFP+ cage and GTX transceiver access
 
 ### Synthesis
@@ -357,7 +357,6 @@ Most developers will not have 10GbE networking at home (2.5GbE is common at best
 ---
 
 **Created:** January 2026
-**Author:** Adilson Dias
-**Last Updated:** February 12, 2026
+**Last Updated:** February 16, 2026
 **Hardware Status:** Tested on AX7325B, WNS +1.194ns, 0 critical warnings
 **Target Board:** ALINX AX7325B (Kintex-7 XC7K325T-2FFG900I)
